@@ -1,4 +1,4 @@
-// app/plugins/play.js (ESM)
+
 import axios from "axios";
 import yts from "yt-search";
 import config from "../config.cjs";
@@ -8,7 +8,7 @@ import path from "path";
 import { spawn } from "child_process";
 
 async function getFfmpegBin() {
-  // Try ffmpeg-static first (best on Heroku)
+//
   try {
     const mod = await import("ffmpeg-static");
     const ffmpegPath = mod.default || mod;
