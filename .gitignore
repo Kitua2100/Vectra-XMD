@@ -9,3 +9,5 @@ auth_info/
 logs/
 tmp/
 temp/
+
+package.json.backup

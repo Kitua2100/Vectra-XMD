@@ -9,11 +9,15 @@
     "stop": "pm2 stop Vectra-XMD",
     "restart": "pm2 restart Vectra-XMD"
   },
-  "keywords": ["vectra-xmd", "whatsapp-bot", "whatsapp md bot"],
+  "keywords": [
+    "vectra-xmd",
+    "whatsapp-bot",
+    "whatsapp md bot"
+  ],
   "author": "Vectra-XMD",
   "license": "ISC",
   "dependencies": {
-    "@whiskeysockets/baileys": "npm:xmd-baileys@latest",
+    "@whiskeysockets/baileys": "7.0.0-rc14",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@google/generative-ai": "^0.9.0",
     "@hapi/boom": "^10.0.1",
