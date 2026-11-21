@@ -24,7 +24,7 @@ const config = {
   DESCRIPTION: process.env.DESCRIPTION || "Vectra",
   OWNER_NAME: process.env.OWNER_NAME || "Vectra team",
   OWNER_NUMBER: process.env.OWNER_NUMBER || "0717640862",
-  GEMINI_KEY: process.env.GEMINI_KEY || "AIzaSyCUPaxfIdZawsKZKqCqJcC-GWiQPCXKTDc",
+  GEMINI_KEY: process.env.GEMINI_KEY || "",
   WELCOME: process.env.WELCOME !== undefined ? process.env.WELCOME === 'true' : false, 
   
   // ========== GROUP & ADMIN FEATURES ==========

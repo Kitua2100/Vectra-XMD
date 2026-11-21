@@ -1,0 +1,11 @@
+node_modules/
+.env
+.env.*
+!.env.example
+session/
+sessions/
+auth_info/
+*.log
+logs/
+tmp/
+temp/
