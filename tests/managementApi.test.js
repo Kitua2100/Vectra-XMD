@@ -35,7 +35,10 @@ test('binds only to loopback', async () => {
   await assert.rejects(listenLocal(api, { host: '0.0.0.0', port: 0 }), /loopback/);
 });
 test('health is available', async () => withApi(async request => {
-  const r = await request('/health'); assert.equal(r.status, 200); assert.deepEqual(await r.json(), { ok: true });
+  const r = await request('/health'); assert.equal(r.status, 200); const body = await r.json();
+  assert.equal(body.ok, true);
+  assert.equal(typeof body.uptimeSeconds, 'number');
+  assert.ok(body.uptimeSeconds >= 0);
 }));
 test('rejects unauthenticated session access', async () => withApi(async request => {
   assert.equal((await request('/sessions/s1/status')).status, 401);
