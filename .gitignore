@@ -23,3 +23,6 @@ index.js.backup
 
 /session/
 /auth/
+
+# Private multi-user ownership registry
+/private/

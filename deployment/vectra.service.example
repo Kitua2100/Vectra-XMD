@@ -1,0 +1,21 @@
+[Unit]
+Description=Vectra-XMD local management service
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=simple
+User=vectra
+Group=vectra
+WorkingDirectory=/opt/vectra-xmd
+Environment=NODE_ENV=production
+Environment=VECTRA_MAX_SESSIONS=3
+ExecStart=/usr/bin/node src/app/runProductionLocal.js
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/vectra-xmd/private /opt/vectra-xmd/auth
+UMask=0077
+[Install]
+WantedBy=multi-user.target
