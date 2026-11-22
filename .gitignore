@@ -26,3 +26,7 @@ index.js.backup
 
 # Private multi-user ownership registry
 /private/
+
+# Local test editing artifacts
+*.test.jj
+*.test.js.bak
