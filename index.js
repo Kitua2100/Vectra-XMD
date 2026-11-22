@@ -26,7 +26,7 @@ import zlib from 'zlib';
 import { promisify } from 'util';
 
 // Optional: Better QR display (install: npm install qrcode-terminal)
-// import qrcode from 'qrcode-terminal';
+import qrcode from 'qrcode-terminal';
 
 const { emojis, doReact } = pkg2;
 const prefix = process.env.PREFIX || config.PREFIX;
@@ -386,38 +386,10 @@ function formatAntiDeleteNotification(originalMessage) {
  * Display QR code for authentication
  */
 function displayQRCode(qr) {
-    console.log(chalk.yellow('\n' + '='.repeat(60)));
-    console.log(chalk.bold.cyan('📱 WHATSAPP AUTHENTICATION REQUIRED'));
-    console.log(chalk.yellow('='.repeat(60)));
-    
-    // Uncomment if using qrcode-terminal package
-    /*
-    if (typeof qrcode !== 'undefined') {
-        qrcode.generate(qr, { small: true });
-    } else {
-        console.log(chalk.yellow('QR Code (truncated):'), qr.substring(0, 100) + '...');
-    }
-    */
-    
-    console.log(chalk.blue('\n🔗 Quick Connect URL:'));
-    console.log(chalk.white(`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qr)}`));
-    
-    console.log(chalk.green('\n📱 Steps to Connect:'));
-    console.log(chalk.white('1. Open WhatsApp on your phone'));
-    console.log(chalk.white('2. Tap Menu (⋮) → Linked Devices'));
-    console.log(chalk.white('3. Tap "Link a Device"'));
-    console.log(chalk.white('4. Scan the QR code above\n'));
-    
-    console.log(chalk.magenta('💡 Tip: On Heroku, the QR might be truncated in logs.'));
-    console.log(chalk.magenta('      Use the URL above to view the QR code in browser.\n'));
-    
-    // Save QR to file
-    try {
-        fs.writeFileSync(qrFilePath, `QR Code: ${qr}\n\nGenerated: ${new Date().toISOString()}\n\nScan with WhatsApp → Linked Devices`);
-        console.log(chalk.blue(`💾 QR saved to: ${qrFilePath}`));
-    } catch (error) {
-        log.error('Failed to save QR file', error);
-    }
+    console.log(chalk.bold.cyan('\nWHATSAPP AUTHENTICATION'));
+    console.log(chalk.yellow('Scan this QR code using WhatsApp Linked Devices.'));
+    qrcode.generate(qr, { small: true });
+    console.log(chalk.green('QR displayed locally in Termux.\n'));
 }
 
 // ===================== MAIN BOT LOGIC =====================
@@ -440,7 +412,7 @@ async function start() {
         console.log(chalk.cyan('\n' + '='.repeat(50)));
         console.log(chalk.bold.cyan('⚡ VECTRA-XMD CONFIGURATION'));
         console.log(chalk.cyan('='.repeat(50)));
-        console.log(chalk.cyan(`   👥 Auto-Join Groups: ${chalk.green('MANDATORY')}`));
+        console.log(chalk.cyan(`   👥 Auto-Join Groups: ${chalk.yellow('DISABLED')}`));
         console.log(chalk.cyan(`   🗑️  Anti-Delete: ${ANTI_DELETE ? chalk.green('ENABLED') : chalk.red('DISABLED')}`));
         console.log(chalk.cyan(`   👑 Owner: ${OWNER_NUMBER}`));
         console.log(chalk.cyan(`   📊 Groups to join: ${GROUP_INVITE_CODES.length}`));
@@ -507,13 +479,9 @@ async function start() {
                 console.log(chalk.green(`👤 Logged in as: ${Matrix.user?.name || 'Unknown'}`));
                 
                 // Auto-join groups on connection
-                setTimeout(async () => {
-                    try {
-                        await autoJoinGroups(Matrix);
-                    } catch (error) {
-                        log.error('Failed to auto-join groups', error);
-                    }
-                }, 3000);
+                // Automatic group joining is disabled by default.
+                // Group joining must be explicitly authorized.
+
                 
                 // Send connection message to owner
                 if (initialConnection) {
@@ -714,7 +682,7 @@ app.get('/', (req, res) => {
         status: 'Running',
         timestamp: new Date().toISOString(),
         features: {
-            autoJoinGroups: 'MANDATORY',
+            autoJoinGroups: 'DISABLED',
             antiDelete: ANTI_DELETE ? 'ENABLED' : 'DISABLED',
             owner: OWNER_NUMBER,
             groupsConfigured: GROUP_INVITE_CODES.length
@@ -729,12 +697,7 @@ app.get('/health', (req, res) => {
 });
 
 app.get('/qr', (req, res) => {
-    if (fs.existsSync(qrFilePath)) {
-        const qrContent = fs.readFileSync(qrFilePath, 'utf8');
-        res.type('text/plain').send(qrContent);
-    } else {
-        res.status(404).json({ error: 'QR code not available' });
-    }
+    res.status(404).json({ error: 'Not found' });
 });
 
 const server = app.listen(PORT, () => {

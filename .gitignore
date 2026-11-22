@@ -11,3 +11,15 @@ tmp/
 temp/
 
 package.json.backup
+
+# WhatsApp authentication credentials
+/auth/
+
+index.js.backup
+
+# WhatsApp authentication and pairing data
+/session/
+/auth/
+
+/session/
+/auth/

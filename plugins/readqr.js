@@ -1,4 +1,4 @@
-import Jimp from 'jimp';
+import Jimp from 'jimp-legacy';
 import jsQR from 'jsqr';
 import jpeg from 'jpeg-js';
 import config from '../config.cjs';

@@ -1,5 +1,5 @@
 import { downloadMediaMessage } from '@whiskeysockets/baileys';
-import Jimp from 'jimp';
+import Jimp from 'jimp-legacy';
 import config from '../config.cjs';
 
 const setProfilePicture = async (m, sock) => {
